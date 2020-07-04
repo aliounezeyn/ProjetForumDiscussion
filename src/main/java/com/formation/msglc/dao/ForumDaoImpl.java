@@ -14,7 +14,9 @@ import com.formation.msglc.entities.AuteurRole;
 import com.formation.msglc.entities.Categorie;
 import com.formation.msglc.entities.Reponse;
 import com.formation.msglc.entities.SousCategorie;
+import com.formation.msglc.entities.Suggestion;
 import com.formation.msglc.entities.Sujet;
+import com.formation.msglc.entities.Tag;
 
 @Transactional
 public class ForumDaoImpl implements IForumDao{
@@ -293,6 +295,78 @@ public class ForumDaoImpl implements IForumDao{
 			return auteur;
 		}
 		return null;
+	}
+
+	//operations sur les suggestions
+	@Override
+	public Suggestion addSuggestion(Suggestion suggestion) {
+		em.persist(suggestion);
+		return suggestion;
+	}
+
+	@Override
+	public Suggestion getSuggestion(Long id) {
+		Suggestion suggestion=em.find(Suggestion.class,id);
+		if(suggestion==null)
+			throw new RuntimeException("Suggestion introuvable !!");
+		return suggestion;
+	}
+
+	@Override
+	public List<Suggestion> getSuggestionsBySujet(Long idSujet) {
+		Query req=em.createNamedQuery("Suggestion.getSuggestionsBySujet").setParameter(1, idSujet);
+		return req.getResultList();
+	}
+
+	@Override
+	public List<Suggestion> getSuggestionsToValidate() {
+		Query req=em.createNamedQuery("Suggestion.getSuggestionsToValidate");
+		return req.getResultList();
+	}
+
+	@Override
+	public Suggestion validerSuggestion(Long id) {
+		Suggestion suggestion=em.find(Suggestion.class, id);
+		if(suggestion==null)
+			throw new RuntimeException("Suggestion introuvable !!");
+		suggestion.setValide(true);
+		return suggestion;
+	}
+
+	//operations sur les Tags
+	@Override
+	public Tag addTag(Tag tag) {
+		em.persist(tag);
+		return tag;
+	}
+
+	@Override
+	public Tag getTag(Long id) {
+		Tag tag=em.find(Tag.class,id);
+		if(tag==null)
+			throw new RuntimeException("Tag introuvable !!");
+		return tag;
+	}
+
+	@Override
+	public List<Tag> getTagsBySujet(Long idSujet) {
+		Query req=em.createNamedQuery("Tag.getTagsBySujet").setParameter(1, idSujet);
+		return req.getResultList();
+	}
+
+	@Override
+	public List<Tag> getTagsToValidate() {
+		Query req=em.createNamedQuery("Tag.getTagsToValidate");
+		return req.getResultList();
+	}
+
+	@Override
+	public Tag validerTag(Long id) {
+		Tag tag=em.find(Tag.class, id);
+		if(tag==null)
+			throw new RuntimeException("Tag introuvable !!");
+		tag.setValide(true);
+		return tag;
 	}
 
 }

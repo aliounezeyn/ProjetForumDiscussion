@@ -42,6 +42,26 @@
 		<query>SELECT r FROM Reponse r WHERE r.valide = true AND r.auteur.id = ?1</query>
 	</named-query>
 	
+	<!-- AZ modif BEGIN -->
+	<named-query name="Suggestion.getSuggestionsBySujet">
+		<query>SELECT s FROM Suggestion s WHERE s.valide = true AND s.sujet.id = ?1</query>
+	</named-query>
+	
+	<named-query name="Suggestion.getSuggestionsToValidate">
+		<query>SELECT s FROM Suggestion s WHERE s.valide = false</query>
+	</named-query>
+	
+	<named-query name="Tag.getTagsBySujet">
+		<query>SELECT t FROM Tag t WHERE t.valide = true AND t.sujet.id = ?1</query>
+	</named-query>
+	
+	<named-query name="Tag.getTagsToValidate">
+		<query>SELECT t FROM Tag t WHERE t.valide = false</query>
+	</named-query>
+	
+	
+	
+	<!-- AZ END -->
 	<named-native-query name="Categorie.getAll"
 		result-class="com.formation.msglc.entities.Categorie">
 		<query>SELECT * FROM Categorie WHERE valide IS TRUE</query>
