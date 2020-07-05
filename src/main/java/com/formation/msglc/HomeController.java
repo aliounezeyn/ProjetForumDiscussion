@@ -252,10 +252,10 @@ public class HomeController {
 				if (post.getContenu().trim().equals("")) {
 					Message bean = new Message("Pas de message vide svp!");
 					model.addAttribute("erreurBean", bean);
-					if (idPage == 1)// add catégorie
+					if (idPage == 1)// add catï¿½gorie
 					{
 						model.addAttribute("categories", metier.getAllCategories());
-					} else if (idPage == 2)// add sous catégorie
+					} else if (idPage == 2)// add sous catï¿½gorie
 					{
 						model.addAttribute("sousCategories", metier.getSousCategoriesByCategorie(id));
 					} else if (idPage == 3)// add sujet
@@ -278,10 +278,10 @@ public class HomeController {
 				Message bean = new Message("Pas de message vide svp!");
 				model.addAttribute("post", new Post(post));
 				model.addAttribute("erreurBean", bean);
-				if (idPage == 1)// add catégorie
+				if (idPage == 1)// add catï¿½gorie
 				{
 					model.addAttribute("categories", metier.getAllCategories());
-				} else if (idPage == 2)// add sous catégorie
+				} else if (idPage == 2)// add sous catï¿½gorie
 				{
 					model.addAttribute("sousCategories", metier.getSousCategoriesByCategorie(id));
 				} else if (idPage == 3)// add sujet
@@ -298,11 +298,11 @@ public class HomeController {
 				return "login";
 			}
 		} else {
-			// <---------------------------------------------------la liste à afficher
-			if (idPage == 1)// add catégorie
+			// <---------------------------------------------------la liste ï¿½ afficher
+			if (idPage == 1)// add catï¿½gorie
 			{
 				model.addAttribute("categories", metier.getAllCategories());
-			} else if (idPage == 2)// add sous catégorie
+			} else if (idPage == 2)// add sous catï¿½gorie
 			{
 				model.addAttribute("sousCategories", metier.getSousCategoriesByCategorie(id));
 			} else if (idPage == 3)// add sujet
@@ -312,7 +312,7 @@ public class HomeController {
 			{
 				model.addAttribute("reponses", metier.getReponseBySujet(id));
 			}
-			Message bean = new Message("Page à  jour: " + new Date());
+			Message bean = new Message("Page ï¿½ jour: " + new Date());
 			model.addAttribute("erreurBean", bean);
 			model.addAttribute("post", new Post(post));
 			return "accueil";
@@ -323,23 +323,23 @@ public class HomeController {
 		int idPage = post.getIdPage();
 		Long id=post.getId();
 		// Auteur a = (Auteur) session.getAttribute("auteur");
-		if (idPage == 1)// add catégorie
+		if (idPage == 1)// add catï¿½gorie
 		{
 			if (a.getRole() == AuteurRole.ADMIN || a.getRole() == AuteurRole.MODERATOR) {
 				metier.addCategorie(new Categorie(post.getContenu(), true));
 			} else {
-				Message bean = new Message("Votre suggestion à bien été enregistrée. Merci.");
+				Message bean = new Message("Votre suggestion ï¿½ bien ï¿½tï¿½ enregistrï¿½e. Merci.");
 				model.addAttribute("erreurBean", bean);
 				metier.addCategorie(new Categorie(post.getContenu(), false));
 			}
 			model.addAttribute("categories", metier.getAllCategories());
-		} else if (idPage == 2)// add sous catégorie
+		} else if (idPage == 2)// add sous catï¿½gorie
 		{
 			if (a.getRole() == AuteurRole.ADMIN || a.getRole() == AuteurRole.MODERATOR) {
 				metier.addSousCategorie(
 						new SousCategorie(post.getContenu(), metier.getCategorie(id), true));
 			} else {
-				Message bean = new Message("Votre suggestion à bien été enregistrée. Merci.");
+				Message bean = new Message("Votre suggestion ï¿½ bien ï¿½tï¿½ enregistrï¿½e. Merci.");
 				model.addAttribute("erreurBean", bean);
 				metier.addSousCategorie(
 						new SousCategorie(post.getContenu(), metier.getCategorie(id), false));
@@ -347,23 +347,32 @@ public class HomeController {
 			model.addAttribute("sousCategories", metier.getSousCategoriesByCategorie(id));
 		} else if (idPage == 3)// add sujet
 		{
+			Sujet newSujet;
 			if (a.getRole() == AuteurRole.ADMIN || a.getRole() == AuteurRole.MODERATOR) {
-				metier.addSujet(new Sujet(post.getIntitule(), post.getContenu(), true,
+				newSujet=metier.addSujet(new Sujet(post.getIntitule(), post.getContenu(), true,
 						(post.getNotifCreateur() != null), a, metier.getSousCategorie(id)));
+				//AZ MODIF BEGIN
+				
+				metier.addSuggestions(newSujet);
+				metier.addTags(newSujet);
+
+				//model.addAttribute("suggestions", metier.getAllSuggestion());
+				//AZ MODIF END
 			} else {
-				Message bean = new Message("Votre suggestion à bien été enregistrée. Merci.");
+				Message bean = new Message("Votre suggestion ï¿½ bien ï¿½tï¿½ enregistrï¿½e. Merci.");
 				model.addAttribute("erreurBean", bean);
 				metier.addSujet(new Sujet(post.getIntitule(), post.getContenu(), false,
 						(post.getNotifCreateur() != null), a, metier.getSousCategorie(id)));
 			}
 			model.addAttribute("sujets", metier.getSujetBySousCategorie(id));
+			
 		} else if (idPage == 4)// add reponse
 		{
 			if (a.getRole() == AuteurRole.ADMIN || a.getRole() == AuteurRole.MODERATOR) {
 				metier.addReponse(new Reponse(post.getContenu(), metier.getSujet(id), true,
 						(post.getNotifCreateur() != null), a));
 			} else {
-				Message bean = new Message("Votre suggestion à bien été enregistrée. Merci.");
+				Message bean = new Message("Votre suggestion ï¿½ bien ï¿½tï¿½ enregistrï¿½e. Merci.");
 				model.addAttribute("erreurBean", bean);
 				metier.addReponse(new Reponse(post.getContenu(), metier.getSujet(id), false,
 						(post.getNotifCreateur() != null), a));
@@ -415,6 +424,9 @@ public class HomeController {
 		nav.setIdSuj(id);
 		Post post = new Post(4);
 		post.setId(id);
+		//AZ Modification BEGIN
+		model.addAttribute("suggestion", metier.getSuggestionsBySujet(id));
+		//AZ Modif END
 		model.addAttribute("reponses", metier.getReponseBySujet(id));
 		model.addAttribute("post", post);
 		return "accueil";
@@ -458,7 +470,7 @@ public class HomeController {
 			}
 		}
 		Auteur auteur = (Auteur) session.getAttribute("auteur");
-		// mise à jour des attribut de l'auteur
+		// mise ï¿½ jour des attribut de l'auteur
 		a.setRole(auteur.getRole());
 		a.setId(auteur.getId());
 		a = metier.updateAuteur(a);

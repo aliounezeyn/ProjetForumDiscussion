@@ -70,8 +70,8 @@ public class Suggestion {
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
-	public Categorie getSousCategorie() {
-		return categorie;
+	public SousCategorie getSousCategorie() {
+		return sousCategorie;
 	}
 	public void setSousCategorie(SousCategorie sousCategorie) {
 		this.sousCategorie = sousCategorie;

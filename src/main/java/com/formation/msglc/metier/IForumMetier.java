@@ -7,7 +7,9 @@ import com.formation.msglc.entities.AuteurRole;
 import com.formation.msglc.entities.Categorie;
 import com.formation.msglc.entities.Reponse;
 import com.formation.msglc.entities.SousCategorie;
+import com.formation.msglc.entities.Suggestion;
 import com.formation.msglc.entities.Sujet;
+import com.formation.msglc.entities.Tag;
 
 public interface IForumMetier {
 	public Auteur addAuteur(Auteur auteur);
@@ -49,5 +51,23 @@ public interface IForumMetier {
 	public List<Reponse> getReponseByAuteur(Long idAuteur);
 	
 	public Auteur testeLogin(String email, String password);
+	
+	//operations sur les suggestions
+	public Suggestion addSuggestion(Suggestion suggestion);
+	public List<Suggestion> addSuggestions(Sujet sujet);
+	public Suggestion getSuggestion(Long id);
+	public List<Suggestion> getSuggestionsBySujet(Long idSujet);
+	public List<Suggestion> getSuggestionsToValidate();
+	public Suggestion validerSuggestion(Long id);
+
+	//Operations sur les Tag(mots-cle)
+	public Tag addTag(Tag tag);
+	public List<Tag> addTags(Sujet sujet);
+	public Tag getTag(Long id);
+	public List<Tag> getTagsBySujet(Long idSujet);
+	public List<Tag> getTagsToValidate();
+	public Tag validerTag(Long id);
+	
+	
 
 }

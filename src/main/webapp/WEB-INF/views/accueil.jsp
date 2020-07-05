@@ -61,6 +61,7 @@
 											<td class="border" width="450"><a
 												href="${pageContext.servletContext.contextPath}/sujet/${i.id}">
 													${i.contenu}</a></td>
+											
 										</tr>
 									</c:forEach>
 									<tr>
@@ -69,6 +70,32 @@
 									</tr>
 								</c:when>
 								<c:when test="${post.idPage==4}">
+									<!--AZ modif BEGIN-->
+									
+									<tr>
+										<td colspan="2" class="border">
+											<table>
+												<tr>
+													<c:forEach items="${suggestion}" var="i">
+														<td>
+															<div class="sug" style="padding: 2px 6px 3px 6px;
+															    background: #6be320;
+															    color: brown;
+															    border-radius: 3px;
+															    box-shadow: 1px 1px 4px 0px black;">
+																<a href="${pageContext.servletContext.contextPath}/categorie/${i.getCategorie().getId()}">
+																${i.getCategorie().getDescription()}</a>
+																|
+																<a href="${pageContext.servletContext.contextPath}/sousCategorie/${i.getSousCategorie().getId()}">
+																 ${i.getSousCategorie().getDescription()}</a>
+															</div>
+														</td>
+													</c:forEach>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<!--AZ modif END-->
 									<c:forEach items="${reponses}" var="i">
 										<tr>
 											<td class="border">${i.auteur.nom}<br>
